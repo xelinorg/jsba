@@ -1,0 +1,23 @@
+version: '3.0'
+
+services:
+  jsba-mongodb-srv:
+    image: mongodb
+    container_name: jsba-mongodb
+    ports: ['27017:27017']
+    networks: ['jsbastack']
+    environment:
+      - MONGO_ARGS=$MONGO_ARGS
+
+  jsba-api-srv:
+    image: api
+    container_name: jsba-api
+    ports: ['8080:8080']
+    networks: ['jsbastack']
+    depends_on:
+      - jsba-mongodb-srv
+    environment:
+      - MONGODB_HOST=jsba-mongodb-srv
+
+networks:
+  jsbastack:
