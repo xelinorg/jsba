@@ -6,7 +6,9 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "./script/build.sh",
-    "clean": "./script/clean.sh"
+    "clean:build": "./script/clean_build.sh",
+    "clean:mongodb": "./script/clean_mongodb.sh",
+    "clean:api": "./script/clean_api.sh"
   },
   "author": "",
   "license": "ISC",

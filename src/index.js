@@ -1,7 +1,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
-const aaa = require('./middleware/aaa');
 
+const aaa = require('./middleware/aaa');
 const db = require('./db');
 
 const secret = 'xxx';

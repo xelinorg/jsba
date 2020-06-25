@@ -8,10 +8,12 @@ then
 else
   echo "creating build directory"
   mkdir build
+  API_PATH=build/container/api
   cp -R container build
-  cp -R src build/container/api
-  cp -R package.json build/container/api
-  cd build/container/api
+  cp -R src $API_PATH
+  cp -R index.js $API_PATH
+  cp -R package.json $API_PATH
+  cd $API_PATH
   docker build -t api .
   cd ../mongodb
   docker build -t mongodb .

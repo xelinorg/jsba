@@ -44,7 +44,8 @@ module.exports = function (secret) {
 
                 const payload = {
                     user: {
-                        id: user.id
+                        id: user.id,
+                        role: user.role
                     }
                 };
 
@@ -90,11 +91,12 @@ module.exports = function (secret) {
                 if (!user) return res.status(400).json({message: 'user does not exist'});
 
                 const passwordMatch = await bcrypt.compare(password, user.password);
-                if (!passwordMatch) return res.status(400).json({message: 'incorrect password !'});
+                if (!passwordMatch) return res.status(400).json({message: 'incorrect username or password'});
 
                 const payload = {
                     user: {
-                        id: user.id
+                        id: user.id,
+                        role: user.role
                     }
                 };
 

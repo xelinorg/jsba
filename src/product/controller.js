@@ -4,17 +4,42 @@ const { check, validationResult } = require('express-validator');
 
 const Product = require('./model');
 
+const modifyRestriction = check()
+    .custom((validatorCtx, connectionCtx ) => {
+        if (connectionCtx.req.user.role === 'client') {
+            return false;
+        }
+    })
+    .withMessage('only admins can modify a product');
+
+const productValidation = [
+    check('name', 'enter a valid product name').not().isEmpty(),
+    check('price', 'enter a valid product price').not().isEmpty(),
+    check('description', 'enter a valid product description').not().isEmpty(),
+    modifyRestriction
+];
+
+const reduceErrorMsg = (errors) => {
+    return errors.reduce((acc, cur)=> {
+        if (!acc.includes(cur.msg)) {
+            acc.push(cur.msg);
+        }
+        return acc;
+    }, []);
+};
+
 module.exports = function () {
     router.get(
         '/product',
         async (req, res) => {
             try {
-                let product = await Product.find({});
+                const fieldSelection = req.user.role === 'admin' ? '' : '-created_by';
+                const product = await Product.find({}).select(fieldSelection);
 
                 return res.status(200).json(product);
             } catch (err) {
                 console.log(err.message);
-                res.status(500).send('Error in getting product list');
+                res.status(500).send('Error on getting product list');
             }
         }
     );
@@ -23,19 +48,27 @@ module.exports = function () {
         '/product/:id',
         async (req, res) => {
             try {
-                let product = await Product.find({_id: req.params.id});
+                const fieldSelection = req.user.role === 'admin' ? '' : '-created_by';
+                const product = await Product.find({_id: req.params.id}).select(fieldSelection);
 
                 return res.status(200).json(product);
             } catch (err) {
                 console.log(err.message);
-                res.status(500).send('Error in getting product by id');
+                res.status(500).send('Error on getting product by id');
             }
         }
     );
 
     router.post(
         '/product',
+        productValidation,
         async (req, res) => {
+            const errors = validationResult(req);
+            if (!errors.isEmpty()) {
+                return res.status(400).json({
+                    errors: reduceErrorMsg(errors.array())
+                });
+            }
             try {
                 const { name, price, description } = req.body;
                 const userId = req.user.id;
@@ -51,37 +84,40 @@ module.exports = function () {
                 return res.status(200).json(product);
             } catch (err) {
                 console.log(err.message);
-                res.status(500).send('Error in creating product');
+                res.status(500).send('Error on creating product');
             }
         }
     );
 
     router.delete(
         '/product/:id',
+        modifyRestriction,
         async (req, res) => {
+            const errors = validationResult(req);
+            if (!errors.isEmpty()) {
+                return res.status(400).json({
+                    errors: reduceErrorMsg(errors.array())
+                });
+            }
             try {
                 let product = await Product.deleteOne({_id: req.params.id});
 
                 return res.status(200).json(product);
             } catch (err) {
                 console.log(err.message);
-                res.status(500).send('Error in deleting product');
+                res.status(500).send('Error on deleting product');
             }
         }
     );
 
     router.put(
         '/product/:id',
-        [
-            check('name', 'enter a valid product name').not().isEmpty(),
-            check('price', 'enter a valid product price').not().isEmpty(),
-            check('description', 'enter a valid product description').not().isEmpty()
-        ],
+        productValidation,
         async (req, res) => {
             const errors = validationResult(req);
             if (!errors.isEmpty()) {
                 return res.status(400).json({
-                    errors: errors.array()
+                    errors: reduceErrorMsg(errors.array())
                 });
             }
             const { name, price, description } = req.body;
@@ -91,7 +127,7 @@ module.exports = function () {
                 return res.status(200).json(product);
             } catch (err) {
                 console.log(err.message);
-                res.status(500).send('error on deleting product');
+                res.status(500).send('error on updating product');
             }
         }
     );

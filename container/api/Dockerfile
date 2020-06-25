@@ -19,8 +19,9 @@ RUN curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.35.3/install.sh | b
 COPY api-entrypoint.sh /usr/local/bin/
 RUN chmod 755 /usr/local/bin/api-entrypoint.sh
 
-COPY ./src /container/api/src
-COPY ./package.json /container/api
+COPY src /container/api/src
+COPY package.json /container/api
+COPY index.js /container/api
 
 RUN chown -R api:api /container/api
 

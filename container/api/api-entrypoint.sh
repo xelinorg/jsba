@@ -3,4 +3,6 @@ echo "EXECUTING API ENTRY POINT>>>"
 
 source /container/api/.nvm/nvm.sh; nvm use 12; npm install
 
-exec node src/index.js
+node index.js admin
+
+exec node index.js

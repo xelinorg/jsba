@@ -18,6 +18,7 @@ services:
       - jsba-mongodb-srv
     environment:
       - MONGODB_HOST=jsba-mongodb-srv
-
+      - ADMIN_USRNAME=$ADMIN_USRNAME
+      - ADMIN_PASS=$ADMIN_PASS
 networks:
   jsbastack:
