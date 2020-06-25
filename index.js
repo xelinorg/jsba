@@ -11,7 +11,9 @@ if (startup.length > 0 && startup[0] === 'admin') {
 
     if ((!adminCredentials.username || !adminCredentials.password) && (process.env.ADMIN_USRNAME && process.env.ADMIN_PASS)) {
         adminCredentials = {username: process.env.ADMIN_USRNAME, password: process.env.ADMIN_PASS};
-    } else {
+    }
+
+    if (!adminCredentials.username || !adminCredentials.password) {
         console.log('username or password missing, skipping admin creation');
         return;
     }
