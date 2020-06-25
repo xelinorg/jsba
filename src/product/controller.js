@@ -9,6 +9,7 @@ const modifyRestriction = check()
         if (connectionCtx.req.user.role === 'client') {
             return false;
         }
+        return true;
     })
     .withMessage('only admins can modify a product');
 
@@ -33,9 +34,10 @@ module.exports = function () {
         '/product',
         async (req, res) => {
             try {
+                const offset = req.query.offset && !isNaN(parseInt(req.query.offset)) ? parseInt(req.query.offset) : 0;
+                const size = req.query.size && !isNaN(parseInt(req.query.size)) ? parseInt(req.query.size) : 0;
                 const fieldSelection = req.user.role === 'admin' ? '' : '-created_by';
-                const product = await Product.find({}).select(fieldSelection);
-
+                const product = await Product.find({}).select(fieldSelection).limit(size).skip(offset);
                 return res.status(200).json(product);
             } catch (err) {
                 console.log(err.message);
