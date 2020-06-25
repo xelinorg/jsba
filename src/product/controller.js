@@ -43,7 +43,7 @@ module.exports = function () {
         async (req, res) => {
             try {
                 const offset = fixNumericParam(req.query.offset);
-                const size = fixNumericParam(req.query.size);
+                const size = fixNumericParam(req.query.size) || 10;
                 const fieldSelection = fieldSelector(req.user.role);
                 const product = await Product.find({}).select(fieldSelection).limit(size).skip(offset);
                 return res.status(200).json(product);
