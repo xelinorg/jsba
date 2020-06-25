@@ -88,7 +88,7 @@ module.exports = function (secret) {
                 let user = await User.findOne({
                     username
                 });
-                if (!user) return res.status(400).json({message: 'user does not exist'});
+                if (!user) return res.status(400).json({message: 'incorrect username or password'});
 
                 const passwordMatch = await bcrypt.compare(password, user.password);
                 if (!passwordMatch) return res.status(400).json({message: 'incorrect username or password'});
