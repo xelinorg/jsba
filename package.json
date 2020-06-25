@@ -8,7 +8,9 @@
     "build": "./script/build.sh",
     "clean:build": "./script/clean_build.sh",
     "clean:mongodb": "./script/clean_mongodb.sh",
-    "clean:api": "./script/clean_api.sh"
+    "clean:api": "./script/clean_api.sh",
+    "start": "node index.js",
+    "admin": "node index.js admin"
   },
   "author": "",
   "license": "ISC",
