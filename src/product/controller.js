@@ -29,14 +29,22 @@ const reduceErrorMsg = (errors) => {
     }, []);
 };
 
+const fixNumericParam = (param) => {
+    return param && !isNaN(parseInt(param)) ? parseInt(param) : 0;
+};
+
+const fieldSelector = (userRole) => {
+    return userRole === 'admin' ? '' : '-created_by';
+};
+
 module.exports = function () {
     router.get(
         '/product',
         async (req, res) => {
             try {
-                const offset = req.query.offset && !isNaN(parseInt(req.query.offset)) ? parseInt(req.query.offset) : 0;
-                const size = req.query.size && !isNaN(parseInt(req.query.size)) ? parseInt(req.query.size) : 0;
-                const fieldSelection = req.user.role === 'admin' ? '' : '-created_by';
+                const offset = fixNumericParam(req.query.offset);
+                const size = fixNumericParam(req.query.size);
+                const fieldSelection = fieldSelector(req.user.role);
                 const product = await Product.find({}).select(fieldSelection).limit(size).skip(offset);
                 return res.status(200).json(product);
             } catch (err) {
@@ -50,7 +58,7 @@ module.exports = function () {
         '/product/:id',
         async (req, res) => {
             try {
-                const fieldSelection = req.user.role === 'admin' ? '' : '-created_by';
+                const fieldSelection = fieldSelector(req.user.role);
                 const product = await Product.find({_id: req.params.id}).select(fieldSelection);
 
                 return res.status(200).json(product);
@@ -124,7 +132,10 @@ module.exports = function () {
             }
             const { name, price, description } = req.body;
             try {
-                let product = await Product.updateOne({_id: req.params.id}, { name, price, description } );
+                let product = await Product.updateOne(
+                    {_id: req.params.id},
+                    { name, price, description }
+                );
 
                 return res.status(200).json(product);
             } catch (err) {
