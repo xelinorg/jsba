@@ -33,10 +33,15 @@ if (startup.length > 0 && startup[0] === 'admin') {
                     password: hashedpass,
                     role: 'admin'
                 });
-                admin.save().then(()=>{
-                    console.log('new admin created');
-                    dbconn.disconnect();
-                });
+                admin.save().then(
+                    ()=>{
+                        console.log('new admin created');
+                        dbconn.disconnect();
+                    },
+                    (err)=>{
+                        console.error(err);
+                        dbconn.disconnect();
+                    });
             });
         });
     });
