@@ -2,4 +2,4 @@
 
 echo "cleaning jsba mongodb container"
 
-docker container prune mongodb
+docker container rm jsba-mongodb

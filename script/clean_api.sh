@@ -2,4 +2,4 @@
 
 echo "cleaning jsba api container"
 
-docker container prune api
+docker container rm jsba-api

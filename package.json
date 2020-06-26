@@ -9,6 +9,7 @@
     "clean:build": "./script/clean_build.sh",
     "clean:mongodb": "./script/clean_mongodb.sh",
     "clean:api": "./script/clean_api.sh",
+    "clean:all": "npm run clean:build && npm run clean:api && npm run clean:mongodb",
     "start": "node index.js",
     "admin": "node index.js admin"
   },
