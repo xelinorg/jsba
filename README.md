@@ -15,15 +15,14 @@ You should export the admin username and password for docker as well or you will
 $ export ADMIN_USRNAME=myadminusr
 $ export ADMIN_PASS=myadminpassword
 ```
+For classical run
+```bash
+$ npm run admin # this creates the admin user
+$ npm run start
+```
 For docker run
 ```bash
 $ npm run build
-```
-
-For classical run
-```bash
-$ npm run admin
-$ npm run start
 ```
 
 Inside the test directory are some bash scripts that use **curl** to interact with the API and register, login, logout users or create, list, update, delete products. The scripts are useful to see how you should craft the API calls if you are using some other tool like **Postman**
@@ -47,7 +46,7 @@ bash test/product_create.sh hereis.myverylongjwttoken.returnedfromthelogincall b
 ```
 
 There are some things that would be nice to be done in order to better the project
-- add some unit testing
+- refactor nested functionality and add some unit testing
 - wire out some more configuration to environment variables and use something like dotenv
 - consolidate strings used around the codebase for messages or configuration
 - give more options for the docker images like dump and restore of the database or create a test container to run the scripts inside the test directory
