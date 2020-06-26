@@ -9,7 +9,7 @@ The other way of running the application is the classic and requires a mongod lo
 
 As seen on the requirements only users having the admin role can create/update/delete products. The API does not allow the creation of users with the admin role and you should create this type of user from the command line by executing something similar to the following on the root directory of the project.
 
-You should export the admin username and password for docker as well or you will have to connect to the running api container later to execute the script fron within the running instance.
+You should export the admin username and password for docker as well or you will have to connect to the running api container later to execute the script from within the running instance.
 
 ```bash
 $ export ADMIN_USRNAME=myadminusr
