@@ -17,7 +17,7 @@ services:
     depends_on:
       - jsba-mongodb-srv
     environment:
-      - MONGODB_HOST=jsba-mongodb-srv
+      - MONGODB_URI=mongodb://jsba-mongodb-srv :27017/jsba'
       - ADMIN_USRNAME=$ADMIN_USRNAME
       - ADMIN_PASS=$ADMIN_PASS
 networks:

@@ -1,4 +1,4 @@
-FROM ubuntu:18.04
+FROM ubuntu:24.04
 
 ENV DEBIAN_FRONTEND=noninteractive
 RUN mkdir /container
@@ -14,7 +14,7 @@ RUN mkdir -p /container/api/.nvm
 WORKDIR /container/api/.nvm
 
 ENV NVM_DIR="/container/api/.nvm"
-RUN curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.35.3/install.sh | bash
+RUN curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.7/install.sh | bash
 
 COPY api-entrypoint.sh /usr/local/bin/
 RUN chmod 755 /usr/local/bin/api-entrypoint.sh
@@ -29,7 +29,7 @@ USER api
 WORKDIR /container/api
 
 ENV HOME=/container/api
-RUN /bin/bash -c "source /container/api/.nvm/nvm.sh; nvm install 12;"
+RUN /bin/bash -c "source /container/api/.nvm/nvm.sh; nvm install 20;"
 
 EXPOSE 8080
 
