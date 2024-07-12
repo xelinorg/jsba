@@ -4,11 +4,11 @@ module.exports = async (DBURI) => {
     try {
         await mongoose.connect(DBURI, {
             useNewUrlParser: true,
-            useUnifiedTopology: true
+            useUnifiedTopology: true,
+            serverSelectionTimeoutMS: 1000
         });
         return mongoose;
     } catch (e) {
-        console.error(e);
         throw e;
     }
 };
