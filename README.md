@@ -55,7 +55,7 @@ There are some things that would be nice to be done in order to better the proje
 If you find any issues with the project or have trouble running, please get back to me as I would be more than happy to help and solve what is not working as you expected.
 
 Versions used are the following
-- node 20.12.2
-- mongodb 7.0.9
+- node 20.15.1
+- mongodb 7.0.12
 - docker 20.10.17
 - docker-compose 2.28.1
